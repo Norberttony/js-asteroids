@@ -7,6 +7,15 @@ import type { Request, Response } from "express";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 
+import { Asteroids_Scene } from "./game-modules/scene.mjs";
+
+
+const scene = new Asteroids_Scene();
+
+setInterval(() => {
+    scene.updateSim();
+}, 100);
+
 
 const app = express();
 
