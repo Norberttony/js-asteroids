@@ -4,7 +4,12 @@ import { Transform_Comp } from "./components.mjs";
 
 
 export function render(ctx: CanvasRenderingContext2D, objects: Game_Object[]){
+    renderClear(ctx);
     renderTransforms(ctx, objects);
+}
+
+function renderClear(ctx: CanvasRenderingContext2D){
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 
 function renderTransforms(ctx: CanvasRenderingContext2D, objects: Game_Object[]){

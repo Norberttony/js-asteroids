@@ -6,6 +6,6 @@
   },
   "type": "module",
   "scripts": {
-    "start": "tsc && node dist/index.mjs"
+    "start": "tsc -b src/client-scripts src/game-engine src/game-modules src/server-modules && node dist/server-modules/index.mjs"
   }
 }

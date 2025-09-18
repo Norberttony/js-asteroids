@@ -7,7 +7,7 @@ import type { Request, Response } from "express";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 
-import { Asteroids_Scene } from "./game-modules/scene.mjs";
+import { Asteroids_Scene } from "../game-modules/scene.mjs";
 
 
 const scene = new Asteroids_Scene();
@@ -20,6 +20,9 @@ setInterval(() => {
 const app = express();
 
 // Set up routes
+app.use("/game-engine", express.static(resolve(".", "dist", "game-engine")));
+app.use("/game-modules", express.static(resolve(".", "dist", "game-modules")));
+app.use("/scripts", express.static(resolve(".", "dist", "client-scripts")));
 app.use(express.static(resolve(".", "src", "public")));
 
 app.get("/", (req: Request, res: Response) => {

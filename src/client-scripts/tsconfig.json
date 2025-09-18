@@ -1,0 +1,13 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "target": "es2015",
+        "module": "nodenext"
+    },
+    "references": [
+        { "path": "../game-modules" }
+    ],
+    "include": [
+        "./**/*"
+    ]
+}
