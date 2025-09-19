@@ -3,5 +3,7 @@
         "esModuleInterop": true,
         "rootDir": "src",
         "outDir": "dist",
+        "strictNullChecks": true,
+        "noImplicitAny": true
     }
 }
