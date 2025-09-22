@@ -50,4 +50,10 @@ export abstract class Scene {
             this.renLag = 0;
         }
     }
+
+    // should return JSON of every currently synced component and game object id
+    // in the future: should be given a player to get a perspective snapshot.
+    getSnapshot(): string {
+        return "";
+    }
 }

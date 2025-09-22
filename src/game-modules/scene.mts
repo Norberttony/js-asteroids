@@ -18,6 +18,9 @@ export class Asteroids_Scene extends Scene {
             new Physics_Comp(1, 0)
         ]);
 
+        this.go.startSync(Transform_Comp);
+        this.go.startSync(Physics_Comp);
+
         this.addObject(this.go);
     }
 
@@ -27,5 +30,7 @@ export class Asteroids_Scene extends Scene {
         const tran = this.go.getComp(Transform_Comp);
         if (tran !== undefined)
             console.log(tran.x, tran.y);
+
+        console.log(this.go.serializeToJSON());
     }
 }
