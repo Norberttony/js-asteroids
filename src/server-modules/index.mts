@@ -8,13 +8,19 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 
 import { Asteroids_Scene } from "../game-modules/scene.mjs";
+import { Asteroids_Server_Network } from "../game-modules/server-network.mjs";
 
 
 const scene = new Asteroids_Scene();
+const network = new Asteroids_Server_Network(scene);
 
 setInterval(() => {
     scene.updateSim();
 }, 100);
+
+setInterval(() => {
+    network.globalSync();
+}, 1000);
 
 
 const app = express();
@@ -36,6 +42,9 @@ const io = new Server(httpServer);
 
 io.on("connection", (socket: Socket) => {
     console.log(socket);
+    network.addSocket(socket);
+
+    socket.on("ping", (callback) => callback());
 });
 
 httpServer.listen(8000);
