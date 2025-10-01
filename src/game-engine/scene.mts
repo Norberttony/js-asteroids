@@ -3,6 +3,7 @@ import { Game_Object } from "./game-object.mjs";
 
 
 export abstract class Scene {
+    private objectById: { [id: number]: Game_Object } = {};
     private objects: Game_Object[] = [];
 
     // time accounting for simulation
@@ -54,6 +55,22 @@ export abstract class Scene {
     // should return JSON of every currently synced component and game object id
     // in the future: should be given a player to get a perspective snapshot.
     getSnapshot(): string {
-        return "";
+        const data: { [id: number]: string } = {};
+        for (const go of this.objects){
+            if (go.canSerialize()){
+                const json = go.serializeToJSON();
+                if (json !== undefined)
+                    data[go.id] = json;
+            }
+        }
+        return JSON.stringify(data);
+    }
+
+    loadSnapshot(json: string): void {
+        const data: { [id: number]: string } = JSON.parse(json);
+        for (const id in data){
+            const go = this.objectById[id];
+            go.deserializeFromJSON(data[id]);
+        }
     }
 }

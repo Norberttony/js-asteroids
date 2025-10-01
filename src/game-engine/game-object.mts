@@ -45,13 +45,18 @@ export class Game_Object {
             console.error(`Tried to sync nonexistent component ${compClass.constructor.name} on`, this);
     }
 
+    // returns true if this game object has components to serialize, otherwise false.
+    canSerialize(): boolean {
+        return this.syncing.size != 0;
+    }
+
     // converts this game object into JSON and returns the object OR, in case no components are
     // being synced, returns an empty string.
     // the server should serialize all of the game objects, and send them to the clients for syncing.
     // filtered syncing as well (based on player vision)
     serializeToJSON(): string | undefined {
         // if we aren't syncing anything we return undefined.
-        if (this.syncing.size == 0){
+        if (!this.canSerialize()){
             return undefined;
         }
 
@@ -60,5 +65,15 @@ export class Game_Object {
             serialized[comp.constructor.name] = serializeToJSON<Component>(comp);
         }
         return serializeToJSON<object>({ id: this.id, comps: serialized });
+    }
+
+    // takes the given JSON and updates itself (and its components) using the data.
+    deserializeFromJSON(json: string): void {
+        const data = JSON.parse(json);
+        for (const className in data){
+            const comp = this.components[className];
+            const compData = JSON.parse(data[className]);
+            Object.assign(comp, compData);
+        }
     }
 }

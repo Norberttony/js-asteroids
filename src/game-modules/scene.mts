@@ -26,11 +26,5 @@ export class Asteroids_Scene extends Scene {
 
     updateSim(): void {
         super.updateSim();
-
-        const tran = this.go.getComp(Transform_Comp);
-        if (tran !== undefined)
-            console.log(tran.x, tran.y);
-
-        console.log(this.go.serializeToJSON());
     }
 }
