@@ -30,11 +30,3 @@ type NotAssignableToJson =
 export function serializeToJSON<T>(obj: JSONCompatible<T>): string {
     return JSON.stringify(obj);
 }
-
-export function deserializeInto<T>(json: string, obj: JSONCompatible<T>): void {
-    Object.assign(obj, JSON.parse(json));
-}
-
-export function serializeComponentToJSON<T extends Component>(obj: JSONCompatible<T>): string {
-    return serializeToJSON(obj);
-}

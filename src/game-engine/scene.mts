@@ -4,6 +4,9 @@ import { Game_Object } from "./game-object.mjs";
 import { SerializedScene } from "./serializable.mjs";
 
 
+// the name of the class retrieves the constructor of the class
+export type CompDict = { [name: string]: new (...args: any[]) => Component };
+
 export abstract class Scene {
     private objectById: { [id: number]: Game_Object } = {};
     private objects: Game_Object[] = [];
@@ -18,7 +21,7 @@ export abstract class Scene {
     private renLag: number = 0;
 
     // contains a dictionary mapping component class names to component constructors
-    private comps: { [name: string]: new (...args: any[]) => Component } = {};
+    private comps: CompDict = {};
 
     constructor(
         private simulate: Function,

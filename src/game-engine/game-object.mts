@@ -1,6 +1,7 @@
 
 import { Component } from "./component.mjs";
-import { SerializedGameObject, serializeToJSON } from "./serializable.mjs";
+import { CompDict } from "./scene.mjs";
+import { JSONValue, SerializedGameObject, serializeToJSON } from "./serializable.mjs";
 
 
 export class Game_Object {
@@ -64,7 +65,7 @@ export class Game_Object {
         for (const comp of this.syncing){
             serialized[comp.constructor.name] = serializeToJSON<Component>(comp);
         }
-        return serializeToJSON<object>({ id: this.id, comps: serialized });
+        return serializeToJSON<SerializedGameObject>({ id: this.id, comps: serialized });
     }
 
     serializeToJSON(): string {
@@ -72,22 +73,27 @@ export class Game_Object {
         for (const comp of Object.values(this.components)){
             serialized[comp.constructor.name] = serializeToJSON<Component>(comp);
         }
-        return serializeToJSON<object>({ id: this.id, comps: serialized });
+        return serializeToJSON<SerializedGameObject>({ id: this.id, comps: serialized });
     }
 
     // takes the given JSON and updates itself (and its components) using the data.
-    deserializeFromJSON(json: string, comps: { [name: string]: new (...args: any[]) => Component }): void {
+    deserializeFromJSON(json: string, sceneComps: CompDict): void {
         const data = JSON.parse(json) as SerializedGameObject;
         for (const className in data.comps){
             let comp = this.components[className];
 
+            // create the component if it doesn't exist yet
             if (!comp){
-                // TODO: this is browser specific and won't work in node. Also, it looks very ugly.
-                comp = new comps[className]();
+                const constr = sceneComps[className];
+                if (!constr){
+                    console.error(`When deserializing game object: could find component "${className}" in CompDict;`, sceneComps);
+                    continue;
+                }
+                comp = new constr();
                 this.attachComp(comp);
             }
 
-            const compData = JSON.parse(data.comps[className]);
+            const compData = JSON.parse(data.comps[className]) as JSONValue;
             Object.assign(comp, compData);
         }
     }

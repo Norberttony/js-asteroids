@@ -23,4 +23,10 @@ export class Physics_Comp extends Component {
     }
 }
 
+export class Fake extends Component {
+    constructor(){
+        super();
+    }
+}
+
 export default [ Transform_Comp, Physics_Comp ];
