@@ -2,8 +2,11 @@
 import { io } from "socket.io-client";
 import { Scene } from "./scene.mjs";
 
-export abstract class Client_Network_Manager {
-    protected socket = io();
+import { BaseClientSocket } from "./socket-types.mjs";
+
+
+export abstract class Client_Network_Manager<Socket extends BaseClientSocket> {
+    protected socket = io() as Socket;
 
     constructor(
         private scene: Scene

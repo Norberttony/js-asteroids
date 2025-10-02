@@ -1,9 +1,10 @@
 
 import { Client_Network_Manager } from "../game-engine/client-network-manager.mjs";
 import { Scene } from "../game-engine/scene.mjs";
+import { ClientSocket as Socket } from "./socket-types.mjs";
 
 
-export class Asteroids_Client_Network extends Client_Network_Manager {
+export class Asteroids_Client_Network extends Client_Network_Manager<Socket> {
     constructor(scene: Scene){
         super(scene);
         this.pingLoop();

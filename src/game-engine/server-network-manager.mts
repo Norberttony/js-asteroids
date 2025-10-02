@@ -1,9 +1,9 @@
 
-import { Socket } from "socket.io";
+import { BaseServerSocket } from "./socket-types.mjs";
 import { Scene } from "./scene.mjs";
 
 
-export abstract class Server_Network_Manager {
+export abstract class Server_Network_Manager<Socket extends BaseServerSocket> {
     private sockets: Socket[] = [];
 
     constructor(

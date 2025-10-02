@@ -5,8 +5,10 @@ import { Physics_Comp } from "./components.mjs";
 
 import { Scene } from "../game-engine/scene.mjs";
 import { Server_Network_Manager } from "../game-engine/server-network-manager.mjs";
+import { ServerSocket as Socket } from "./socket-types.mjs";
 
-export class Asteroids_Server_Network extends Server_Network_Manager {
+
+export class Asteroids_Server_Network extends Server_Network_Manager<Socket> {
     constructor(scene: Scene){
         super(scene);
 
