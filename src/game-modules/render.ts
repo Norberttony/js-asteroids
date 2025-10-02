@@ -1,6 +1,6 @@
 
-import { Game_Object } from "../game-engine/game-object.mjs";
-import { Transform_Comp } from "./components.mjs";
+import { Game_Object } from "../game-engine/game-object.js";
+import { Transform_Comp } from "./components.js";
 
 
 export function render(ctx: CanvasRenderingContext2D, objects: Game_Object[]){

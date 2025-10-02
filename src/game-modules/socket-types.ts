@@ -6,7 +6,7 @@ import type {
     BaseClientToServerEvents as CTSEvents,
     BaseInterServerEvents as ISEvents,
     BaseSocketData as SD
-} from "../game-engine/socket-types.mjs";
+} from "../game-engine/socket-types.js";
 
 
 // defines events that pertain to the game specifically

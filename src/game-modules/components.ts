@@ -1,5 +1,5 @@
 
-import { Component } from "../game-engine/component.mjs";
+import { Component } from "../game-engine/component.js";
 
 
 export class Transform_Comp extends Component {

@@ -1,5 +1,5 @@
 
-import { JSONValue } from "./serializable.mjs";
+import { JSONValue } from "./serializable.js";
 
 export abstract class Component {
     // force components to be serializable out of the box

@@ -1,6 +1,6 @@
 
-import { Game_Object } from "../game-engine/game-object.mjs";
-import { Physics_Comp, Transform_Comp } from "./components.mjs";
+import { Game_Object } from "../game-engine/game-object.js";
+import { Physics_Comp, Transform_Comp } from "./components.js";
 
 
 export function simulate(objects: Game_Object[], elapsedSec: number){

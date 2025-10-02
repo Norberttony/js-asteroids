@@ -1,11 +1,11 @@
 
-import { Game_Object } from "../game-engine/game-object.mjs";
-import { Transform_Comp } from "./components.mjs";
-import { Physics_Comp } from "./components.mjs";
+import { Game_Object } from "../game-engine/game-object.js";
+import { Transform_Comp } from "./components.js";
+import { Physics_Comp } from "./components.js";
 
-import { Scene } from "../game-engine/scene.mjs";
-import { Server_Network_Manager } from "../game-engine/server-network-manager.mjs";
-import { ServerSocket as Socket } from "./socket-types.mjs";
+import { Scene } from "../game-engine/scene.js";
+import { Server_Network_Manager } from "../game-engine/server-network-manager.js";
+import { ServerSocket as Socket } from "./socket-types.js";
 
 
 export class Asteroids_Server_Network extends Server_Network_Manager<Socket> {

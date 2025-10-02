@@ -1,6 +1,6 @@
 
-import { BaseServerSocket } from "./socket-types.mjs";
-import { Scene } from "./scene.mjs";
+import { BaseServerSocket } from "./socket-types.js";
+import { Scene } from "./scene.js";
 
 
 export abstract class Server_Network_Manager<Socket extends BaseServerSocket> {

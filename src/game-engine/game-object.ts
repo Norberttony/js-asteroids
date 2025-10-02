@@ -1,7 +1,7 @@
 
-import { Component } from "./component.mjs";
-import { CompDict } from "./scene.mjs";
-import { JSONValue, SerializedGameObject, serializeToJSON } from "./serializable.mjs";
+import { Component } from "./component.js";
+import { CompDict } from "./scene.js";
+import { JSONValue, SerializedGameObject, serializeToJSON } from "./serializable.js";
 
 
 export class Game_Object {

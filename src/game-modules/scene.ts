@@ -1,9 +1,9 @@
 
-import { Scene } from "../game-engine/scene.mjs";
-import { simulate } from "./simulate.mjs";
-import { render } from "./render.mjs";
+import { Scene } from "../game-engine/scene.js";
+import { simulate } from "./simulate.js";
+import { render } from "./render.js";
 
-import components from "./components.mjs";
+import components from "./components.js";
 
 
 export class Asteroids_Scene extends Scene {    

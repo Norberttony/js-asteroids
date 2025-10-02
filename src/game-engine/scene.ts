@@ -1,7 +1,7 @@
 
-import { Component } from "./component.mjs";
-import { Game_Object } from "./game-object.mjs";
-import { SerializedScene } from "./serializable.mjs";
+import { Component } from "./component.js";
+import { Game_Object } from "./game-object.js";
+import { SerializedScene } from "./serializable.js";
 
 
 // the name of the class retrieves the constructor of the class

@@ -7,9 +7,9 @@ import type { Request, Response } from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
-import { Asteroids_Scene } from "../game-modules/scene.mjs";
-import { Asteroids_Server_Network } from "../game-modules/server-network.mjs";
-import type { IOServer, ServerSocket as Socket } from "../game-modules/socket-types.mjs";
+import { Asteroids_Scene } from "../game-modules/scene.js";
+import { Asteroids_Server_Network } from "../game-modules/server-network.js";
+import type { IOServer, ServerSocket as Socket } from "../game-modules/socket-types.js";
 
 
 const scene = new Asteroids_Scene();

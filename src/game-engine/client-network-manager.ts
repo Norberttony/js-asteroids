@@ -1,8 +1,8 @@
 
 import { io } from "socket.io-client";
-import { Scene } from "./scene.mjs";
+import { Scene } from "./scene.js";
 
-import { BaseClientSocket } from "./socket-types.mjs";
+import { BaseClientSocket } from "./socket-types.js";
 
 
 export abstract class Client_Network_Manager<Socket extends BaseClientSocket> {
