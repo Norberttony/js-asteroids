@@ -35,8 +35,13 @@ export abstract class Scene {
     }
 
     addObject(obj: Game_Object): void {
-        obj.id = this.lastId++;
+        this.addObjectWithId(obj, this.lastId++);
+    }
+
+    private addObjectWithId(obj: Game_Object, id: number): void {
+        obj.id = id;
         this.objects.push(obj);
+        this.objectById[id] = obj;
     }
 
     private clearObjects(): void {
@@ -105,8 +110,7 @@ export abstract class Scene {
             // create a new game object if one with this id doesn't exist already
             if (!go){
                 go = new Game_Object([]);
-                go.id = parseInt(id);
-                this.addObject(go);
+                this.addObjectWithId(go, parseInt(id));
             }
             go.deserializeFromJSON(data[id], this.comps);
         }
