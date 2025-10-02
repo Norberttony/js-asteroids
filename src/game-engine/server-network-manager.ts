@@ -3,7 +3,7 @@ import { BaseServerSocket } from "./socket-types.js";
 import { Scene } from "./scene.js";
 
 
-export abstract class Server_Network_Manager<Socket extends BaseServerSocket> {
+export abstract class ServerNetworkManager<Socket extends BaseServerSocket> {
     private sockets: Socket[] = [];
 
     constructor(

@@ -7,13 +7,13 @@ import type { Request, Response } from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
-import { Asteroids_Scene } from "../game-modules/scene.js";
-import { Asteroids_Server_Network } from "../game-modules/server-network.js";
+import { AsteroidsScene } from "../game-modules/scene.js";
+import { AsteroidsServerNetwork } from "../game-modules/server-network.js";
 import type { IOServer, ServerSocket as Socket } from "../game-modules/socket-types.js";
 
 
-const scene = new Asteroids_Scene();
-const network = new Asteroids_Server_Network(scene);
+const scene = new AsteroidsScene();
+const network = new AsteroidsServerNetwork(scene);
 
 setInterval(() => {
     scene.updateSim();

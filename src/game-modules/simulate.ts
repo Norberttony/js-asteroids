@@ -1,16 +1,16 @@
 
-import { Game_Object } from "../game-engine/game-object.js";
-import { Physics_Comp, Transform_Comp } from "./components.js";
+import { GameObject } from "../game-engine/game-object.js";
+import { PhysicsComp, TransformComp } from "./components.js";
 
 
-export function simulate(objects: Game_Object[], elapsedSec: number){
+export function simulate(objects: GameObject[], elapsedSec: number){
     simulatePhysics(objects, elapsedSec);
 }
 
-function simulatePhysics(objects: Game_Object[], elapsed: number){
+function simulatePhysics(objects: GameObject[], elapsed: number){
     for (const o of objects){
-        const tran = o.getComp(Transform_Comp);
-        const phys = o.getComp(Physics_Comp);
+        const tran = o.getComp(TransformComp);
+        const phys = o.getComp(PhysicsComp);
         if (tran !== undefined && phys !== undefined){
             phys.velX += phys.accX * elapsed;
             phys.velY += phys.accY * elapsed;

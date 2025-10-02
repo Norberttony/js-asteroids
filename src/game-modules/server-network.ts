@@ -1,14 +1,13 @@
 
-import { Game_Object } from "../game-engine/game-object.js";
-import { Transform_Comp } from "./components.js";
-import { Physics_Comp } from "./components.js";
+import { GameObject } from "../game-engine/game-object.js";
+import { TransformComp, PhysicsComp } from "./components.js";
 
 import { Scene } from "../game-engine/scene.js";
-import { Server_Network_Manager } from "../game-engine/server-network-manager.js";
+import { ServerNetworkManager } from "../game-engine/server-network-manager.js";
 import { ServerSocket as Socket } from "./socket-types.js";
 
 
-export class Asteroids_Server_Network extends Server_Network_Manager<Socket> {
+export class AsteroidsServerNetwork extends ServerNetworkManager<Socket> {
     constructor(scene: Scene){
         super(scene);
 
@@ -16,13 +15,13 @@ export class Asteroids_Server_Network extends Server_Network_Manager<Socket> {
         // clients load the configuration from the server without having to delete their own
         // default configuration.
 
-        const go = new Game_Object([
-            new Transform_Comp(0, 30),
-            new Physics_Comp(4, 0)
+        const go = new GameObject([
+            new TransformComp(0, 30),
+            new PhysicsComp(4, 0)
         ]);
 
-        go.startSync(Transform_Comp);
-        go.startSync(Physics_Comp);
+        go.startSync(TransformComp);
+        go.startSync(PhysicsComp);
 
         this.scene.addObject(go);
     }

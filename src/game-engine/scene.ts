@@ -1,6 +1,6 @@
 
 import { Component } from "./component.js";
-import { Game_Object } from "./game-object.js";
+import { GameObject } from "./game-object.js";
 import { SerializedScene } from "./serializable.js";
 
 
@@ -8,8 +8,8 @@ import { SerializedScene } from "./serializable.js";
 export type CompDict = { [name: string]: new (...args: any[]) => Component };
 
 export abstract class Scene {
-    private objectById: { [id: number]: Game_Object } = {};
-    private objects: Game_Object[] = [];
+    private objectById: { [id: number]: GameObject } = {};
+    private objects: GameObject[] = [];
     private lastId: number = 0;
 
     // time accounting for simulation
@@ -34,11 +34,11 @@ export abstract class Scene {
             this.comps[constr.name] = constr;
     }
 
-    addObject(obj: Game_Object): void {
+    addObject(obj: GameObject): void {
         this.addObjectWithId(obj, this.lastId++);
     }
 
-    private addObjectWithId(obj: Game_Object, id: number): void {
+    private addObjectWithId(obj: GameObject, id: number): void {
         obj.id = id;
         this.objects.push(obj);
         this.objectById[id] = obj;
@@ -46,6 +46,8 @@ export abstract class Scene {
 
     private clearObjects(): void {
         this.objects = [];
+        this.objectById = {};
+        this.lastId = 0;
     }
 
     // updates the simulation of the game objects (ie. physics, AI, non-rendering).
@@ -109,7 +111,7 @@ export abstract class Scene {
             let go = this.objectById[id];
             // create a new game object if one with this id doesn't exist already
             if (!go){
-                go = new Game_Object([]);
+                go = new GameObject([]);
                 this.addObjectWithId(go, parseInt(id));
             }
             go.deserializeFromJSON(data[id], this.comps);

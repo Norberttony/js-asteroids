@@ -5,6 +5,7 @@
         "outDir": "dist",
         "strictNullChecks": true,
         "noImplicitAny": true,
+        "noEmitOnError": true,
         "target": "es2020",
         "module": "nodenext",
         "moduleResolution": "nodenext"

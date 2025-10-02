@@ -2,7 +2,7 @@
 import { Component } from "../game-engine/component.js";
 
 
-export class Transform_Comp extends Component {
+export class TransformComp extends Component {
     constructor(
         public x: number,
         public y: number
@@ -11,7 +11,7 @@ export class Transform_Comp extends Component {
     }
 }
 
-export class Physics_Comp extends Component {
+export class PhysicsComp extends Component {
     public accX: number = 0;
     public accY: number = 0;
 
@@ -23,10 +23,4 @@ export class Physics_Comp extends Component {
     }
 }
 
-export class Fake extends Component {
-    constructor(){
-        super();
-    }
-}
-
-export default [ Transform_Comp, Physics_Comp ];
+export default [ TransformComp, PhysicsComp ];

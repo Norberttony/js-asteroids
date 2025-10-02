@@ -5,7 +5,7 @@ import { Scene } from "./scene.js";
 import { BaseClientSocket } from "./socket-types.js";
 
 
-export abstract class Client_Network_Manager<Socket extends BaseClientSocket> {
+export abstract class ClientNetworkManager<Socket extends BaseClientSocket> {
     protected socket = io() as Socket;
 
     constructor(

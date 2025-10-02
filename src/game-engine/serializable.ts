@@ -2,8 +2,6 @@
 // Code largely unchanged from:
 // https://itnext.io/mastering-type-safe-json-serialization-in-typescript-b898a0316741
 
-import { Component } from "./component.js";
-
 // These are the only types that JSON can deal with when serializing
 type JSONPrimitive = string | number | boolean | null | undefined;
 

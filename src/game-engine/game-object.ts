@@ -4,7 +4,7 @@ import { CompDict } from "./scene.js";
 import { JSONValue, SerializedGameObject, serializeToJSON } from "./serializable.js";
 
 
-export class Game_Object {
+export class GameObject {
     // id used for identifying the game object during syncing
     public id: number;
 
