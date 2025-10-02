@@ -3,25 +3,12 @@ import { Scene } from "../game-engine/scene.mjs";
 import { simulate } from "./simulate.mjs";
 import { render } from "./render.mjs";
 
-import { Game_Object } from "../game-engine/game-object.mjs";
-import { Transform_Comp, Physics_Comp } from "./components.mjs";
+import components from "./components.mjs";
 
 
-export class Asteroids_Scene extends Scene {
-    private go: Game_Object;
-    
+export class Asteroids_Scene extends Scene {    
     constructor(){
-        super(simulate, render, 20, 60);
-
-        this.go = new Game_Object([
-            new Transform_Comp(0, 0),
-            new Physics_Comp(1, 0)
-        ]);
-
-        this.go.startSync(Transform_Comp);
-        this.go.startSync(Physics_Comp);
-
-        this.addObject(this.go);
+        super(simulate, render, 20, 60, components);
     }
 
     updateSim(): void {

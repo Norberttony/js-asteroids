@@ -9,7 +9,11 @@ export abstract class Client_Network_Manager {
         private scene: Scene
     ){
         this.socket.on("snapshot", (json: string) => {
-            this.onSnapshot(json);
+            this.onSnapshot(json, false);
+        });
+
+        this.socket.on("syncSnapshot", (json: string) => {
+            this.onSnapshot(json, true);
         });
     }
 
@@ -27,7 +31,7 @@ export abstract class Client_Network_Manager {
         });
     }
 
-    protected onSnapshot(json: string){
-        this.scene.loadSnapshot(json);
+    protected onSnapshot(json: string, isSync: boolean){
+        this.scene.loadSnapshot(json, isSync);
     }
 }

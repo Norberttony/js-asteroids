@@ -7,6 +7,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "tsc -b src/client-scripts src/game-engine src/game-modules src/server-modules && node dist/server-modules/index.mjs"
+    "build": "npx tsc -b src/client-scripts src/game-engine src/game-modules src/server-modules",
+    "start": "node dist/server-modules/index.mjs"
   }
 }

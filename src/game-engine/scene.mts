@@ -1,10 +1,13 @@
 
+import { Component } from "./component.mjs";
 import { Game_Object } from "./game-object.mjs";
+import { SerializedScene } from "./serializable.mjs";
 
 
 export abstract class Scene {
     private objectById: { [id: number]: Game_Object } = {};
     private objects: Game_Object[] = [];
+    private lastId: number = 0;
 
     // time accounting for simulation
     private simLastUpdate: number = Date.now();
@@ -14,15 +17,27 @@ export abstract class Scene {
     private renLastUpdate: number = Date.now();
     private renLag: number = 0;
 
+    // contains a dictionary mapping component class names to component constructors
+    private comps: { [name: string]: new (...args: any[]) => Component } = {};
+
     constructor(
         private simulate: Function,
         private render: Function,
         public msPerUpdate: number,
-        public framecap: number
-    ){}
+        public framecap: number,
+        private compList: (new (...args: any[]) => Component)[]
+    ){
+        for (const constr of this.compList)
+            this.comps[constr.name] = constr;
+    }
 
     addObject(obj: Game_Object): void {
+        obj.id = this.lastId++;
         this.objects.push(obj);
+    }
+
+    private clearObjects(): void {
+        this.objects = [];
     }
 
     // updates the simulation of the game objects (ie. physics, AI, non-rendering).
@@ -52,13 +67,23 @@ export abstract class Scene {
         }
     }
 
-    // should return JSON of every currently synced component and game object id
-    // in the future: should be given a player to get a perspective snapshot.
+    // gets an entire snapshot of every game object
     getSnapshot(): string {
         const data: { [id: number]: string } = {};
         for (const go of this.objects){
+            const json = go.serializeToJSON();
+            data[go.id] = json;
+        }
+        return JSON.stringify(data);
+    }
+
+    // should return JSON of every currently synced component and game object id
+    // in the future: should be given a player to get a perspective snapshot.
+    getSyncSnapshot(): string {
+        const data: { [id: number]: string } = {};
+        for (const go of this.objects){
             if (go.canSerialize()){
-                const json = go.serializeToJSON();
+                const json = go.serializeSyncToJSON();
                 if (json !== undefined)
                     data[go.id] = json;
             }
@@ -66,11 +91,21 @@ export abstract class Scene {
         return JSON.stringify(data);
     }
 
-    loadSnapshot(json: string): void {
-        const data: { [id: number]: string } = JSON.parse(json);
+    loadSnapshot(json: string, isSync: boolean): void {
+        // if this is a full world snapshot (ie. not a sync snapshot) we should clear all objects.
+        if (!isSync)
+            this.clearObjects();
+
+        const data = JSON.parse(json) as SerializedScene;
         for (const id in data){
-            const go = this.objectById[id];
-            go.deserializeFromJSON(data[id]);
+            let go = this.objectById[id];
+            // create a new game object if one with this id doesn't exist already
+            if (!go){
+                go = new Game_Object([]);
+                go.id = parseInt(id);
+                this.addObject(go);
+            }
+            go.deserializeFromJSON(data[id], this.comps);
         }
     }
 }

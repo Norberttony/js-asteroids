@@ -22,3 +22,5 @@ export class Physics_Comp extends Component {
         super();
     }
 }
+
+export default [ Transform_Comp, Physics_Comp ];

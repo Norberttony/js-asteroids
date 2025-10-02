@@ -7,18 +7,21 @@ export abstract class Server_Network_Manager {
     private sockets: Socket[] = [];
 
     constructor(
-        private scene: Scene
+        protected scene: Scene
     ){}
 
     addSocket(socket: Socket){
         this.sockets.push(socket);
+
+        const snapshot = this.scene.getSnapshot();
+        socket.emit("snapshot", snapshot);
     }
 
     globalSync(){
         // for now there are no player perspective snapshots, so serialize snapshot outside of loop
-        const snapshot = this.scene.getSnapshot();
+        const snapshot = this.scene.getSyncSnapshot();
         for (const s of this.sockets){
-            s.emit("snapshot", snapshot);
+            s.emit("syncSnapshot", snapshot);
         }
     }
 }

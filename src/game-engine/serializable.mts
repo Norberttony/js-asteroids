@@ -19,6 +19,9 @@ export type JSONCompatible<T> = unknown extends T ? never : {
         JSONCompatible<T[P]>;
 };
 
+export type SerializedScene = { [id: number]: string };
+export type SerializedGameObject = { id: number, comps: { [className: string]: string } };
+
 type NotAssignableToJson =
     | bigint
     | symbol

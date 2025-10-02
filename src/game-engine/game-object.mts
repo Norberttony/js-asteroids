@@ -1,6 +1,6 @@
 
 import { Component } from "./component.mjs";
-import { serializeToJSON } from "./serializable.mjs";
+import { SerializedGameObject, serializeToJSON } from "./serializable.mjs";
 
 
 export class Game_Object {
@@ -54,7 +54,7 @@ export class Game_Object {
     // being synced, returns an empty string.
     // the server should serialize all of the game objects, and send them to the clients for syncing.
     // filtered syncing as well (based on player vision)
-    serializeToJSON(): string | undefined {
+    serializeSyncToJSON(): string | undefined {
         // if we aren't syncing anything we return undefined.
         if (!this.canSerialize()){
             return undefined;
@@ -67,12 +67,27 @@ export class Game_Object {
         return serializeToJSON<object>({ id: this.id, comps: serialized });
     }
 
+    serializeToJSON(): string {
+        const serialized: { [name: string]: string } = {};
+        for (const comp of Object.values(this.components)){
+            serialized[comp.constructor.name] = serializeToJSON<Component>(comp);
+        }
+        return serializeToJSON<object>({ id: this.id, comps: serialized });
+    }
+
     // takes the given JSON and updates itself (and its components) using the data.
-    deserializeFromJSON(json: string): void {
-        const data = JSON.parse(json);
-        for (const className in data){
-            const comp = this.components[className];
-            const compData = JSON.parse(data[className]);
+    deserializeFromJSON(json: string, comps: { [name: string]: new (...args: any[]) => Component }): void {
+        const data = JSON.parse(json) as SerializedGameObject;
+        for (const className in data.comps){
+            let comp = this.components[className];
+
+            if (!comp){
+                // TODO: this is browser specific and won't work in node. Also, it looks very ugly.
+                comp = new comps[className]();
+                this.attachComp(comp);
+            }
+
+            const compData = JSON.parse(data.comps[className]);
             Object.assign(comp, compData);
         }
     }
