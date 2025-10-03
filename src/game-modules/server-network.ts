@@ -1,6 +1,6 @@
 
 import { GameObject } from "../game-engine/game-object.js";
-import { TransformComp, PhysicsComp } from "./components.js";
+import { TransformComp, PhysicsComp, PolylineComp } from "./components.js";
 
 import { Scene } from "../game-engine/scene.js";
 import { ServerNetworkManager } from "../game-engine/server-network-manager.js";
@@ -17,7 +17,13 @@ export class AsteroidsServerNetwork extends ServerNetworkManager<Socket> {
 
         const go = new GameObject([
             new TransformComp(0, 30),
-            new PhysicsComp(4, 0)
+            new PhysicsComp(4, 0),
+            new PolylineComp("gray", "red", 5, [
+                { x: -10, y: -10 },
+                { x: 10, y: -10 },
+                { x: 10, y: 10 },
+                { x: -10, y: 10 }
+            ])
         ]);
 
         go.startSync(TransformComp);

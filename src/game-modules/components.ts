@@ -1,6 +1,8 @@
 
 import { Component } from "../game-engine/component.js";
 
+type Point = { x: number, y: number };
+
 
 export class TransformComp extends Component {
     constructor(
@@ -23,4 +25,15 @@ export class PhysicsComp extends Component {
     }
 }
 
-export default [ TransformComp, PhysicsComp ];
+export class PolylineComp extends Component {
+    constructor(
+        public fillColor: string,
+        public strokeColor: string,
+        public strokeWidth: number,
+        public points: Point[] = []
+    ){
+        super();
+    }
+}
+
+export default [ TransformComp, PhysicsComp, PolylineComp ];
