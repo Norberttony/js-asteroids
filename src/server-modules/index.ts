@@ -1,5 +1,5 @@
 
-import { resolve } from "node:path";
+import { join } from "node:path";
 
 import express from "express";
 import type { Request, Response } from "express";
@@ -26,14 +26,21 @@ setInterval(() => {
 
 const app = express();
 
-// Set up routes
-app.use("/game-engine", express.static(resolve(".", "dist", "game-engine")));
-app.use("/game-modules", express.static(resolve(".", "dist", "game-modules")));
-app.use("/scripts", express.static(resolve(".", "dist", "client-scripts")));
-app.use(express.static(resolve(".", "src", "public")));
+// Set up JS routes
+app.use("/game-engine", express.static(join("dist", "game-engine")));
+app.use("/game-modules", express.static(join("dist", "game-modules")));
+app.use("/scripts", express.static(join("dist", "client-scripts")));
+
+// Set up TS routes (for source maps)
+app.use("/src/game-engine", express.static(join("src", "game-engine")));
+app.use("/src/game-modules", express.static(join("src", "game-modules")));
+app.use("/src/client-scripts", express.static(join("src", "client-scripts")));
+
+// public folder containing styles and pages
+app.use(express.static(join("src", "public")));
 
 app.get("/", (req: Request, res: Response) => {
-    res.sendFile(resolve(".", "src", "public", "index.html"));
+    res.sendFile(join("src", "public", "index.html"));
 });
 
 // Set up server (with socket.io)
