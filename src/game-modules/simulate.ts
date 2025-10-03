@@ -12,6 +12,7 @@ function simulatePhysics(objects: GameObject[], elapsed: number){
         const tran = o.getComp(TransformComp);
         const phys = o.getComp(PhysicsComp);
         if (tran !== undefined && phys !== undefined){
+            tran.rad += phys.angVel * elapsed;
             phys.velX += phys.accX * elapsed;
             phys.velY += phys.accY * elapsed;
             tran.x += phys.velX * elapsed;

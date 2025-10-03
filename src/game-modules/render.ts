@@ -34,14 +34,23 @@ function renderPolylines(ctx: CanvasRenderingContext2D, objects: GameObject[]){
             ctx.strokeStyle = poly.strokeColor;
             ctx.lineWidth = poly.strokeWidth;
 
+            // transform
+            ctx.translate(tran.x, tran.y);
+            ctx.rotate(tran.rad);
+
+            // draw polygon
             const first = poly.points[0];
             ctx.beginPath();
-            ctx.moveTo(tran.x + first.x, tran.y + first.y);
+            ctx.moveTo(first.x, first.y);
             for (const { x, y } of poly.points)
-                ctx.lineTo(tran.x + x, tran.y + y);
+                ctx.lineTo(x, y);
             ctx.closePath();
             ctx.stroke();
             ctx.fill();
+
+            // undo transform
+            ctx.rotate(-tran.rad);
+            ctx.translate(-tran.x, -tran.y);
         }
     }
 }

@@ -5,6 +5,8 @@ type Point = { x: number, y: number };
 
 
 export class TransformComp extends Component {
+    public rad: number = 0;
+
     constructor(
         public x: number,
         public y: number
@@ -19,7 +21,8 @@ export class PhysicsComp extends Component {
 
     constructor(
         public velX: number,
-        public velY: number
+        public velY: number,
+        public angVel: number = 0
     ){
         super();
     }

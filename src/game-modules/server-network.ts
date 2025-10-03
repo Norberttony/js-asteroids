@@ -17,7 +17,7 @@ export class AsteroidsServerNetwork extends ServerNetworkManager<Socket> {
 
         const go = new GameObject([
             new TransformComp(0, 30),
-            new PhysicsComp(4, 0),
+            new PhysicsComp(4, 0, Math.PI / 4),
             new PolylineComp("gray", "red", 5, [
                 { x: -10, y: -10 },
                 { x: 10, y: -10 },
