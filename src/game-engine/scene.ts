@@ -50,6 +50,19 @@ export abstract class Scene {
         this.lastId = 0;
     }
 
+    private removeObjectById(idx: number): void {
+        this.objects.splice(idx, 1);
+        delete this.objectById[idx];
+    }
+
+    // goes through the list and removes destroyed objects
+    private removeDestroyedObjects(): void {
+        for (let i = 0; i < this.objects.length; i++){
+            if (this.objects[i].getIsDestroyed())
+                this.removeObjectById(i--);
+        }
+    }
+
     // updates the simulation of the game objects (ie. physics, AI, non-rendering).
     updateSim(): void {
         const now = Date.now();
@@ -58,6 +71,7 @@ export abstract class Scene {
 
         while (this.simLag >= this.msPerUpdate){
             this.simulate(this.objects, this.msPerUpdate / 1000);
+            this.removeDestroyedObjects();
             this.simLag -= this.msPerUpdate;
         }
 
@@ -106,6 +120,7 @@ export abstract class Scene {
         if (!isSync)
             this.clearObjects();
 
+        const synced = new Set<string>();
         const data = JSON.parse(json) as SerializedScene;
         for (const id in data){
             let go = this.objectById[id];
@@ -114,7 +129,14 @@ export abstract class Scene {
                 go = new GameObject([]);
                 this.addObjectWithId(go, parseInt(id));
             }
+            synced.add(id);
             go.deserializeFromJSON(data[id], this.comps);
+        }
+
+        // any objects that have not been synced in this exchange are assumed to be destroyed.
+        for (const go of this.objects){
+            if (go.canSerialize() && !synced.has(go.id.toString()))
+                go.destroy();
         }
     }
 }

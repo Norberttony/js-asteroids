@@ -11,11 +11,21 @@ export class GameObject {
     private components: { [name: string] : Component } = {};
     private syncing: Set<Component> = new Set();
 
+    private isDestroyed: boolean = false;
+
     constructor(
         comps: Component[]
     ){
         for (const c of comps)
             this.attachComp(c);
+    }
+
+    destroy(): void {
+        this.isDestroyed = true;
+    }
+
+    getIsDestroyed(): boolean {
+        return this.isDestroyed;
     }
 
     // attaches a component to this game object
@@ -52,7 +62,7 @@ export class GameObject {
     }
 
     // converts this game object into JSON and returns the object OR, in case no components are
-    // being synced, returns an empty string.
+    // being synced, returns undefined.
     // the server should serialize all of the game objects, and send them to the clients for syncing.
     // filtered syncing as well (based on player vision)
     serializeSyncToJSON(): string | undefined {
@@ -91,6 +101,7 @@ export class GameObject {
                 }
                 comp = new constr();
                 this.attachComp(comp);
+                this.startSync(constr);
             }
 
             const compData = JSON.parse(data.comps[className]) as JSONValue;
