@@ -34,8 +34,14 @@ export abstract class Scene {
             this.comps[constr.name] = constr;
     }
 
-    addObject(obj: GameObject): void {
+    public addObject(obj: GameObject): void {
         this.addObjectWithId(obj, this.lastId++);
+    }
+
+    public getObject(id: number): GameObject | undefined {
+        const obj = this.objectById[id];
+        if (obj)
+            return obj;
     }
 
     private addObjectWithId(obj: GameObject, id: number): void {
@@ -64,7 +70,7 @@ export abstract class Scene {
     }
 
     // updates the simulation of the game objects (ie. physics, AI, non-rendering).
-    updateSim(): void {
+    public updateSim(): void {
         const now = Date.now();
         const diff = now - this.simLastUpdate;
         this.simLag += diff;
@@ -80,7 +86,7 @@ export abstract class Scene {
 
     // renders the scene given a rendering context, which is usually returned by a Canvas DOM
     // element or an OffscreenCanvas instance
-    renderScene(ctx: RenderingContext): void {
+    public renderScene(ctx: RenderingContext): void {
         const now = Date.now();
         const diff = now - this.renLastUpdate;
         this.renLag += diff;
@@ -92,7 +98,7 @@ export abstract class Scene {
     }
 
     // gets an entire snapshot of every game object
-    getSnapshot(): string {
+    public getSnapshot(): string {
         const data: { [id: number]: string } = {};
         for (const go of this.objects){
             const json = go.serializeToJSON();
@@ -103,7 +109,7 @@ export abstract class Scene {
 
     // should return JSON of every currently synced component and game object id
     // in the future: should be given a player to get a perspective snapshot.
-    getSyncSnapshot(): string {
+    public getSyncSnapshot(): string {
         const data: { [id: number]: string } = {};
         for (const go of this.objects){
             if (go.canSerialize()){
@@ -115,7 +121,7 @@ export abstract class Scene {
         return JSON.stringify(data);
     }
 
-    loadSnapshot(json: string, isSync: boolean): void {
+    public loadSnapshot(json: string, isSync: boolean): void {
         // if this is a full world snapshot (ie. not a sync snapshot) we should clear all objects.
         if (!isSync)
             this.clearObjects();
