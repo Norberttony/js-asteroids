@@ -5,7 +5,8 @@ Basic asteroids game for the browser.
 # Build
 1. Open up a terminal (or cd into) the project's root folder
 2. Install all npm dependencies with `npm install`
-3. Build and run the project using the `npm run start` command
+3. Build the project with `npm run build`
+4. Run the project with `npm run start`
 
 # Project Structure
 The project is divided into separate modules that are compiled as separate TypeScript projects. This is to avoid unnecessary recompilation steps when modifying the code. Here is the list of modules (which can be found under ./src):
