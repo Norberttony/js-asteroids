@@ -57,6 +57,10 @@ export class InputManager {
         return this.activeActions;
     }
 
+    public isActionActive(actionConstr: ActionConstructor): boolean {
+        return this.activeActions.has(actionConstr);
+    }
+
     public bindKey(key: string, action: ActionConstructor): void {
         this.inputMap[key.toLowerCase()] = action;
     }

@@ -85,7 +85,7 @@ export abstract class Scene {
 
         const delta: number = this.msPerUpdate / 1000;
         while (this.simLag >= this.msPerUpdate){
-            this.simulate(this.objects, delta);
+            this.simulate(this.objects, delta, this.inputManager);
             this.removeDestroyedObjects();
             this.simLag -= this.msPerUpdate;
         }
