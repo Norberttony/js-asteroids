@@ -13,6 +13,7 @@ inpMan.bindKey("w", MoveUpAction);
 // initialize scene and network management
 const scene = new AsteroidsScene();
 const cnm = new AsteroidsClientNetwork(scene);
+cnm.playerIdChanged.addListener((id: number) => inpMan.playerId = id);
 console.log(cnm);
 
 scene.setInputManager(inpMan);
@@ -20,7 +21,6 @@ scene.setInputManager(inpMan);
 requestAnimationFrame(mainLoop);
 
 function mainLoop(){
-
     scene.updateSim();
     scene.renderScene(gameCtx);
 

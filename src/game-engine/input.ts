@@ -12,12 +12,14 @@ export interface InputMap {
 export interface ActionEvent {
     actionInvoked: ActionConstructor,
     inputType: InputType,
-    timestamp: number
+    timestamp: number,
+    playerId: number
 };
 
 export class InputManager {
     public inputBuffer = new MessageMultiQueue<ActionEvent>();
     private activeActions = new Set<ActionConstructor>();
+    public playerId: number = 0;
 
     constructor(
         private target: Element,
@@ -31,7 +33,8 @@ export class InputManager {
                 this.inputBuffer.addToQueue({
                     actionInvoked: action,
                     inputType: "pressed",
-                    timestamp: new Date().getTime()
+                    timestamp: new Date().getTime(),
+                    playerId: this.playerId
                 });
             }
         });
@@ -43,18 +46,11 @@ export class InputManager {
                 this.inputBuffer.addToQueue({
                     actionInvoked: action,
                     inputType: "released",
-                    timestamp: new Date().getTime()
+                    timestamp: new Date().getTime(),
+                    playerId: this.playerId
                 });
             }
         });
-    }
-
-    private handleKeyboardEvent(event: KeyboardEvent, type: InputType): void {
-        const k = event.key.toLowerCase();
-        const action: ActionConstructor | undefined = this.inputMap[k];
-        if (action){
-            // event.
-        }
     }
 
     public getActiveActions(): Set<ActionConstructor> {

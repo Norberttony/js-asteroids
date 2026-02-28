@@ -1,8 +1,7 @@
 import { Component } from "./component.js";
 import { GameObject } from "./game-object.js";
 import { SerializedScene } from "./serializable.js";
-import { MessageMultiQueue } from "./message-queue.js";
-import { ActionEvent, InputManager } from "./input.js";
+import { InputManager } from "./input.js";
 
 // the name of the class retrieves the constructor of the class
 export type CompDict = { [name: string]: new (...args: any[]) => Component };
@@ -24,8 +23,7 @@ export abstract class Scene {
     private comps: CompDict = {};
 
     // scene consumes actions
-    private actionQueue: MessageMultiQueue<ActionEvent> | undefined;
-    private actionQueueId: number = -1;
+    private inputManager: InputManager;
 
     constructor(
         private simulate: Function,
@@ -41,10 +39,7 @@ export abstract class Scene {
     public abstract createPlayerObject(id: number): GameObject;
 
     public setInputManager(inpMan: InputManager): void {
-        if (this.actionQueue)
-            this.actionQueue.removeListener(this.actionQueueId);
-        this.actionQueueId = inpMan.inputBuffer.addListener();
-        this.actionQueue = inpMan.inputBuffer;
+        this.inputManager = inpMan;
     }
 
     public addObject(obj: GameObject): void {
@@ -88,8 +83,9 @@ export abstract class Scene {
         const diff = now - this.simLastUpdate;
         this.simLag += diff;
 
+        const delta: number = this.msPerUpdate / 1000;
         while (this.simLag >= this.msPerUpdate){
-            this.simulate(this.objects, this.msPerUpdate / 1000);
+            this.simulate(this.objects, delta);
             this.removeDestroyedObjects();
             this.simLag -= this.msPerUpdate;
         }

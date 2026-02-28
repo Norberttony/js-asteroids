@@ -1,11 +1,10 @@
-
 import type { Socket as SSocket } from "socket.io";
 import type { Socket as CSocket } from "socket.io-client";
-
 
 export interface BaseServerToClientEvents {
     snapshot: (data: string) => void;
     syncSnapshot: (data: string) => void;
+    playerId: (id: number) => void;
 }
 
 export interface BaseClientToServerEvents {

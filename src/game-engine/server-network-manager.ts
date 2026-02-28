@@ -13,8 +13,10 @@ export abstract class ServerNetworkManager<Socket extends BaseServerSocket> {
     public addSocket(socket: Socket){
         this.sockets.push(socket);
 
-        const go: GameObject = this.scene.createPlayerObject(this.socketIds++);
+        const id: number = this.socketIds++;
+        const go: GameObject = this.scene.createPlayerObject(id);
         this.scene.addObject(go);
+        socket.emit("playerId", id);
 
         const snapshot = this.scene.getSnapshot();
         socket.emit("snapshot", snapshot);
