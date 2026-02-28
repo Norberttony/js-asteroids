@@ -13,6 +13,10 @@ export class MessageQueue<T> {
     public readFromQueue(): T | undefined {
         return this.queue.shift();
     }
+
+    public isQueueEmpty(): boolean {
+        return this.queue.length == 0;
+    }
 }
 
 // broadcasts messages to all readers, maintaining a separate queue for each.

@@ -15,6 +15,8 @@ const scene = new AsteroidsScene();
 const cnm = new AsteroidsClientNetwork(scene);
 console.log(cnm);
 
+scene.setInputManager(inpMan);
+
 requestAnimationFrame(mainLoop);
 
 function mainLoop(){

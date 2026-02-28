@@ -1,8 +1,8 @@
-
 import { Component } from "./component.js";
 import { GameObject } from "./game-object.js";
 import { SerializedScene } from "./serializable.js";
-
+import { MessageMultiQueue } from "./message-queue.js";
+import { ActionEvent, InputManager } from "./input.js";
 
 // the name of the class retrieves the constructor of the class
 export type CompDict = { [name: string]: new (...args: any[]) => Component };
@@ -23,6 +23,10 @@ export abstract class Scene {
     // contains a dictionary mapping component class names to component constructors
     private comps: CompDict = {};
 
+    // scene consumes actions
+    private actionQueue: MessageMultiQueue<ActionEvent> | undefined;
+    private actionQueueId: number = -1;
+
     constructor(
         private simulate: Function,
         private render: Function,
@@ -32,6 +36,13 @@ export abstract class Scene {
     ){
         for (const constr of this.compList)
             this.comps[constr.name] = constr;
+    }
+
+    public setInputManager(inpMan: InputManager): void {
+        if (this.actionQueue)
+            this.actionQueue.removeListener(this.actionQueueId);
+        this.actionQueueId = inpMan.inputBuffer.addListener();
+        this.actionQueue = inpMan.inputBuffer;
     }
 
     public addObject(obj: GameObject): void {
