@@ -1,9 +1,15 @@
-import { ActionConstructor } from "./action.js";
+import { Action, ActionConstructor } from "./action.js";
 
 // client-side script that handles listening to input from the user...
 
 export interface InputMap {
     [key: string]: ActionConstructor | undefined;
+};
+
+export interface InputEvent {
+    actionInvoked: Action,
+    inputType: "pressed" | "held" | "released",
+    timestamp: number
 };
 
 export class InputManager {
