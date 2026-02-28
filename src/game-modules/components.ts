@@ -1,8 +1,15 @@
-
 import { Component } from "../game-engine/component.js";
 
 type Point = { x: number, y: number };
 
+// used for determining which objects are "Actionable" (controlled by the user)
+export class PlayerComp extends Component {
+    constructor(
+        public id: number = 0
+    ){
+        super();
+    }
+}
 
 export class TransformComp extends Component {
     public rad: number = 0;
@@ -39,4 +46,4 @@ export class PolylineComp extends Component {
     }
 }
 
-export default [ TransformComp, PhysicsComp, PolylineComp ];
+export default [ PlayerComp, TransformComp, PhysicsComp, PolylineComp ];

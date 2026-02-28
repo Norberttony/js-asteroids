@@ -22,7 +22,7 @@ export class MessageQueue<T> {
 // broadcasts messages to all readers, maintaining a separate queue for each.
 export class MessageMultiQueue<T> {
     private listenerId: number = 0;
-    private queueMap: { [listenerId: string]: MessageQueue<T> };
+    private queueMap: { [listenerId: string]: MessageQueue<T> } = {};
 
     constructor(){}
 

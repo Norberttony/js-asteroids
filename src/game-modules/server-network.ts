@@ -1,11 +1,9 @@
-
 import { GameObject } from "../game-engine/game-object.js";
-import { TransformComp, PhysicsComp, PolylineComp } from "./components.js";
+import { TransformComp, PhysicsComp, PolylineComp, PlayerComp } from "./components.js";
 
 import { Scene } from "../game-engine/scene.js";
 import { ServerNetworkManager } from "../game-engine/server-network-manager.js";
 import { ServerSocket as Socket } from "./socket-types.js";
-
 
 export class AsteroidsServerNetwork extends ServerNetworkManager<Socket> {
     constructor(scene: Scene){

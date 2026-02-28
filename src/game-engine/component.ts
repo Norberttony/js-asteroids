@@ -1,4 +1,3 @@
-
 import { JSONValue } from "./serializable.js";
 
 export abstract class Component {

@@ -38,6 +38,8 @@ export abstract class Scene {
             this.comps[constr.name] = constr;
     }
 
+    public abstract createPlayerObject(id: number): GameObject;
+
     public setInputManager(inpMan: InputManager): void {
         if (this.actionQueue)
             this.actionQueue.removeListener(this.actionQueueId);
