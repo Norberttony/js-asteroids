@@ -1,15 +1,29 @@
-
-import { ClientNetworkManager } from "./client-network-manager.js";
-import { BaseClientSocket } from "./socket-types.js";
-import { Action } from "./action.js";
+import { ActionConstructor } from "./action.js";
 
 // client-side script that handles listening to input from the user...
 
-export class Input {
+export interface InputMap {
+    [key: string]: ActionConstructor | undefined;
+};
+
+export class InputManager {
     constructor(
         private target: Element,
-        private cnm: ClientNetworkManager<BaseClientSocket>
-    ){}
+        private inputMap: InputMap = {}
+    ){
+        this.target.addEventListener("keydown", (event: KeyboardEvent) => {
+            const k = event.key.toLowerCase();
+            const action: ActionConstructor | undefined = this.inputMap[k];
+            if (action)
+                console.log(action);
+        });
+    }
 
+    public bindKey(key: string, action: ActionConstructor): void {
+        this.inputMap[key.toLowerCase()] = action;
+    }
 
+    public unbindKey(key: string): void {
+        delete this.inputMap[key.toLowerCase()];
+    }
 }

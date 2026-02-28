@@ -2,7 +2,8 @@
 import type { Scene } from "./scene.js";
 
 export type ActionFunction = (scene: Scene, action: Action) => void;
-export type ActionType = "trigger" | "hold";
+export type ActionType = "pressed" | "held" | "released";
+export type ActionConstructor = new (goId: number) => Action;
 
 export abstract class Action {
     private type: ActionType;

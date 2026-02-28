@@ -1,9 +1,7 @@
-
 import { io } from "socket.io-client";
 import { Scene } from "./scene.js";
 
 import { BaseClientSocket } from "./socket-types.js";
-
 
 export abstract class ClientNetworkManager<Socket extends BaseClientSocket> {
     protected socket = io() as Socket;
